@@ -238,16 +238,21 @@ class software extends basis_db
 
 	/**
 	 * Laedt die Software
-	 * @param $aktiv boolean Wenn true, werden nur aktive Eintraege geladen
+	 * @param bool $aktiv [optional, default=null] Wenn true, werden nur aktive Eintraege geladen, wenn false, nur inaktive, wenn NULL alle
+	 * @param string $softwaretyp_kurzbz [optional, default=null] Softwaretyp, der geladen werden soll
+	 * @return bool
 	 */
-	public function getSoftware($aktiv=true)
+	public function getSoftware($aktiv=null, $softwaretyp_kurzbz='')
 	{
 		$qry = "SELECT
 					*
 				FROM
-					addon.tbl_software ";
-		if($aktiv===false)
-			$qry.=" WHERE aktiv=false";
+					addon.tbl_software
+				WHERE 1=1";
+		if(!is_null($aktiv))
+			$qry.=" AND aktiv=".$this->db_add_param($aktiv, FHC_BOOLEAN);
+		if($softwaretyp_kurzbz!='')
+			$qry.=" AND softwaretyp_kurzbz=".$this->db_add_param($softwaretyp_kurzbz, FHC_STRING);
 
 		$qry.=" ORDER BY bezeichnung";
 

@@ -359,6 +359,9 @@ class software_ort extends basis_db
 	
 	/**
 	 * Ordnet einem Softwareeintrag alle Raeume zu, die den Parametern entsprechen (und diesem noch nicht zugeordnet sind)
+	 * @param int $software_id ID der Software, welcher die Raeume zugeordnet werden sollen
+	 * @param bool $ort_aktiv [optional, default NULL] Wenn true, werden nur aktive Raeume zugewiesen, wenn false nur inaktive, wenn NULL alle
+	 * @param bool $ort_lehre [optional, default NULL] Wenn true, werden nur Raeume mit lehre=true zugewiesen, wenn false nur solche mit lehre=false, wenn NULL alle
 	 * @return boolean true wenn ok, false im Fehlerfall
 	 */
 	public function assignAll($software_id, $ort_aktiv=null, $ort_lehre=null)
@@ -379,8 +382,6 @@ class software_ort extends basis_db
 		
 		if(!is_null($ort_lehre))			
 			$qry .= ' AND tbl_ort.lehre='.$this->db_add_param($ort_lehre, FHC_BOOLEAN);
-		
-			$qry .= ' LIMIT 10;';
 
 		if($this->db_query($qry))
 		{

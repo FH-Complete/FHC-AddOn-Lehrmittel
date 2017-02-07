@@ -269,7 +269,7 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 	</form>';
 	
 	$htmlstr.='<br><hr>
-	<a href="software_details.php?type=software_ort&software_id='.$software_id.'&method=deleteAll">Alle entfernen</a><br>
+	<a href="software_details.php?type=software_ort&software_id='.$software_id.'&method=deleteAll" onclick="return confirm(\'Wollen Sie alle zugeordneten Räume entfernen?\');">Alle entfernen</a><br>
 	<a href="software_details.php?type=software_ort&software_id='.$software_id.'&method=assignAll">Alle Lehrsäle hinzufügen</a>';
 
 }

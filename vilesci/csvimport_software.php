@@ -217,7 +217,7 @@ else
 	// Commandline Parameter parsen bei Aufruf ueber Cronjob
 	// zb php korrigiere_verwendung.php --mailto info@fhcomplete.org
 	$longopt = array(
-	  "mailto"
+	  "mailto:"
 	);
 	$commandlineparams = getopt('', $longopt);
 	if(isset($commandlineparams['mailto']))
@@ -252,7 +252,7 @@ else
 	{
 		$handle = fopen($file,"r");
 		$filename = basename($file);
-
+		/* Auskommentiert weil sich Dateinomenklatur geändert hat
 		//Dateiname parsen um Ort_kurzbz auszulesen. Dateinamen kommen in der Form PC-F42617.csv
 		preg_match('/(\d+)/',$filename,$ort,PREG_OFFSET_CAPTURE); //Position der ersten Zahl aus Dateiname auslesen und in $ort schreiben
 		
@@ -260,6 +260,13 @@ else
 		$planbezeichnung .= '.'; // + . = 'F4.'
 		$planbezeichnung .= substr($filename,$ort[0][1]+1,2); // + Folgende zwei Zahlen = 'F4.26'
 		$planbezeichnung .= (ctype_alpha(substr($filename,$ort[0][1]+3,1))==true?substr($filename,$ort[0][1]+3,1):''); // + Wenn 3. Stelle nach $ort ein Buchstabe ist, diesen anfuegen = 'F4.26A'
+		*/
+		//Dateiname parsen um Ort_kurzbz auszulesen. Dateinamen kommen in der Form 2016-04-08_PC-F426A17.csv	
+		$planbezeichnung = substr($filename,14,2); //Position 14 + erste Nummer = 'F4'
+		$planbezeichnung .= '.'; // + . = 'F4.'
+		$planbezeichnung .= substr($filename,16,2); // + Folgende zwei Zahlen = 'F4.26'
+		$planbezeichnung .= (ctype_alpha(substr($filename,18,1))==true?substr($filename,18,1):''); // + Wenn 18. Stelle ein Buchstabe ist, diesen anfuegen = 'F4.26A'
+		
 		
 		$ort_kurzbz_obj = new ort();
 		$ort_kurzbz_obj->getOrtByPlanbezeichnung($planbezeichnung);

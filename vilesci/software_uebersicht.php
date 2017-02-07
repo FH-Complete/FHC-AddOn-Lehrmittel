@@ -21,6 +21,7 @@ require_once('../../../config/vilesci.config.inc.php');
 require_once('../../../include/functions.inc.php');
 require_once('../../../include/benutzerberechtigung.class.php');
 require_once('../include/software.class.php');
+require_once('../include/software_typ.class.php');
 require_once('../config.inc.php');
 
 //require_once('../../../include/ort.class.php');
@@ -79,6 +80,12 @@ $sw = new software();
 if(!$sw->getSoftware())
 	die($sw->errormsg);
 
+$softwaretypes = new software_typ();
+$softwaretypes->getAllTypes();
+$softwaretypes_arr = array();
+foreach ($softwaretypes->result AS $row)
+	$softwaretypes_arr[$row->softwaretyp_kurzbz] = $row->bezeichnung;
+
 $htmlstr = "
 <table class='tablesorter' id='t1'>
 <thead>
@@ -107,7 +114,7 @@ foreach ($sw->result as $software)
 	$htmlstr .= "		<td>".$software->software_id."</td>\n";
 	$htmlstr .= "		<td><a href='software_details.php?type=software&software_id=".$software->software_id."' target='detail_software'>".$software->bezeichnung."</a></td>\n";
 	$htmlstr .= "		<td>".$software->version."</td>\n";
-	$htmlstr .= "		<td>".$software->softwaretyp_kurzbz."</td>\n";
+	$htmlstr .= "		<td>".$softwaretypes_arr[$software->softwaretyp_kurzbz]."</td>\n";
 	$htmlstr .= "		<td><a href='".APP_ROOT."cms/admin.php?content_id=".$software->content_id."&action=content&sprache=".DEFAULT_LANGUAGE."&filter=".(defined('SOFTWARE_CONTENT_TEMPLATE')?SOFTWARE_CONTENT_TEMPLATE:$software->content_id)."' target='blank'>".$software->content_id."</a></td>\n";
 	$htmlstr .= "		<td>".$software->ansprechperson_uid."</td>\n";
 	$htmlstr .= "		<td>".$software->anzahl_lizenzen."</td>\n";
