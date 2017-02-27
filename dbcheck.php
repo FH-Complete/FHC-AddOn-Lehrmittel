@@ -53,7 +53,7 @@ $uid = get_uid();
 $rechte = new benutzerberechtigung();
 $rechte->getBerechtigungen($uid);
 
-if(!$rechte->isBerechtigt("basis/addon"))
+if(!$rechte->isBerechtigt("basis/addon", null, 'suid'))
 {
 	exit("Sie haben keine Berechtigung für die Verwaltung von Addons");
 }
@@ -102,23 +102,23 @@ if(!$result = @$db->db_query('SELECT 1 FROM addon.tbl_software_typ'))
 				softwaretyp_kurzbz varchar(32),
 				bezeichnung varchar(256)
 			);
-			
+
 			ALTER TABLE addon.tbl_software_typ ADD CONSTRAINT pk_softwaretyp_kurzbz PRIMARY KEY (softwaretyp_kurzbz);
-			
+
 			COMMENT ON TABLE addon.tbl_software_typ IS 'Hier wird definiert, welche Typen von Software es gibt';
-		
+
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software_typ TO vilesci;
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software_typ TO web;
 			";
 
 	if(!$db->db_query($qry))
 		echo "<strong>addon.tbl_software_typ: ".$db->db_last_error()."</strong><br>";
-	else 
+	else
 		echo " addon.tbl_software_typ: Tabelle addon.tbl_software_typ hinzugefuegt!<br>";
 
 }
 
-// Anlegen der Tabelle tbl_software 
+// Anlegen der Tabelle tbl_software
 if(!$result = @$db->db_query('SELECT 1 FROM addon.tbl_software'))
 {
 
@@ -140,23 +140,23 @@ if(!$result = @$db->db_query('SELECT 1 FROM addon.tbl_software'))
 				updateamum timestamp,
 				updatevon varchar(32)
 			);
-			
+
 			CREATE SEQUENCE addon.tbl_software_software_id_seq
 			INCREMENT BY 1
 			NO MAXVALUE
 			NO MINVALUE
 			CACHE 1;
-			
+
 			ALTER TABLE addon.tbl_software ADD CONSTRAINT pk_software_id PRIMARY KEY (software_id);
 			ALTER TABLE addon.tbl_software ALTER COLUMN software_id SET DEFAULT nextval('addon.tbl_software_software_id_seq');
 			ALTER TABLE addon.tbl_software ADD CONSTRAINT uk_software_id UNIQUE (software_id);
 			ALTER TABLE addon.tbl_software ADD CONSTRAINT fk_softwaretyp_kurzbz FOREIGN KEY (softwaretyp_kurzbz) REFERENCES addon.tbl_software_typ(softwaretyp_kurzbz) ON DELETE RESTRICT ON UPDATE CASCADE;
 			ALTER TABLE addon.tbl_software ADD CONSTRAINT fk_content_id FOREIGN KEY (content_id) REFERENCES campus.tbl_content(content_id) ON DELETE SET NULL ON UPDATE CASCADE;
 			ALTER TABLE addon.tbl_software ADD CONSTRAINT fk_ansprechperson_uid FOREIGN KEY (ansprechperson_uid) REFERENCES public.tbl_benutzer(uid) ON DELETE RESTRICT ON UPDATE CASCADE;
-			
+
 			GRANT SELECT, UPDATE ON addon.tbl_software_software_id_seq TO vilesci;
 			GRANT SELECT, UPDATE ON addon.tbl_software_software_id_seq TO web;
-			
+
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software TO vilesci;
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software TO web;
 			";
@@ -183,21 +183,21 @@ if(!$result = @$db->db_query('SELECT 1 FROM addon.tbl_software_ort'))
 				updateamum timestamp,
 				updatevon varchar(32)
 			);
-			
+
 			CREATE SEQUENCE addon.tbl_software_ort_software_ort_id_seq
 			INCREMENT BY 1
 			NO MAXVALUE
 			NO MINVALUE
 			CACHE 1;
-			
+
 			ALTER TABLE addon.tbl_software_ort ADD CONSTRAINT pk_software_ort_id PRIMARY KEY (software_ort_id);
 			ALTER TABLE addon.tbl_software_ort ALTER COLUMN software_ort_id SET DEFAULT nextval('addon.tbl_software_ort_software_ort_id_seq');
 			ALTER TABLE addon.tbl_software_ort ADD CONSTRAINT fk_software_id FOREIGN KEY (software_id) REFERENCES addon.tbl_software(software_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 			ALTER TABLE addon.tbl_software_ort ADD CONSTRAINT fk_ort_kurzbz FOREIGN KEY (ort_kurzbz) REFERENCES public.tbl_ort(ort_kurzbz) ON DELETE RESTRICT ON UPDATE CASCADE;
-			
+
 			GRANT SELECT, UPDATE ON addon.tbl_software_ort_software_ort_id_seq TO vilesci;
 			GRANT SELECT, UPDATE ON addon.tbl_software_ort_software_ort_id_seq TO web;
-			
+
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software_ort TO vilesci;
 			GRANT SELECT, INSERT, UPDATE, DELETE ON addon.tbl_software_ort TO web;
 			";
