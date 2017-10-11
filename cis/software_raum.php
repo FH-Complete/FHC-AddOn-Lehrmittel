@@ -26,7 +26,7 @@ require_once('../include/software_ort.class.php');
 require_once('../config.inc.php');
 
 $user = get_uid();
-$sprache = getSprache(); 
+$sprache = getSprache();
 $p=new phrasen($sprache);
 
 $datum_obj = new datum();
@@ -53,33 +53,39 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <head>
 	<title>'.$p->t("software/softwareInRaum",$ort_kurzbz).'</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+
 	<link rel="stylesheet" href="../../../skin/tablesort.css" type="text/css"/>
 	<link rel="stylesheet" href="../../../skin/style.css.php" type="text/css">
-	<script type="text/javascript" src="../../../include/js/jquery.js"></script> 
+
+	<script type="text/javascript" src="../../../vendor/jquery/jqueryV1/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/christianbach/tablesorter/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/components/jqueryui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../../../include/js/jquery.ui.datepicker.translation.js"></script>
+	<script type="text/javascript" src="../../../vendor/jquery/sizzle/sizzle.js"></script>
+
 	<script type="text/javascript">
 
-	$(document).ready(function() 
-		{ 
+	$(document).ready(function()
+		{
 		    $("#t1").tablesorter(
 			{
 				sortList: [[0,0],[1,0]],
 				widgets: [\'zebra\']
-			}); 
-			
-			$(".rooms").hide();   
+			});
+
+			$(".rooms").hide();
 			$( "a.roomsToggle" ).click(function() {
 			    $(this).next().slideToggle(200);
 			});
-		} 
+		}
 	);
-	
-	function ContentPopUp (Adresse) 
+
+	function ContentPopUp (Adresse)
 	{
 	  Content = window.open(Adresse, "Content", "width=800,height=500,scrollbars=yes");
 	  Content.focus();
 	}
-			
+
 	function loadOrt(software_id)
 	{
 		// value=document.getElementById(name+software_ort_id).value;
@@ -89,22 +95,22 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
 		$.ajax({
 			type: "POST",
-			url: "software_uebersicht.php", 
+			url: "software_uebersicht.php",
 			data: dataObj,
 			dataType: "json",
-			success: function(data) 
+			success: function(data)
 			{
 				//var htmlOutput = $.parseJSON(data);
 				listData = "<ul style=\"margin-top: 0px; margin-bottom: 0px;\">";
-				$.each(data, function(i, item) 
+				$.each(data, function(i, item)
 				{
 					listData += "<li><a href=\"software_raum.php?ort_kurzbz=" + item + "\" target=\"content\">" + item + "</a></li>";
 				});
 				listData += "</ul>";
 				$("#"+divelement).html(listData);
-				
+
 				// $("#"+divelement).html(data);
-				
+
 				//var data = $.parseJSON($("#json").html());
 				//$.each(data.data, function(index, value) { $(".data").append(value.a+"<br />"); } );
 			},
@@ -135,13 +141,13 @@ foreach($softwaretyp->result as $row)
 		$selected='selected';
 	else
 		$selected='';
-		
+
 	echo '<OPTION value="'.$row->softwaretyp_kurzbz.'" '.$selected.'>'.$row->bezeichnung.'</OPTION>';
 }
 echo '</SELECT>
 <input type="hidden" name="ort_kurzbz" value="'.$ort_kurzbz.'" />
 <input type="submit" value="'.$p->t("software/filtern").'" />
-</form>';	
+</form>';
 
 echo '	<table class="tablesorter" id="t1">
 		<thead>

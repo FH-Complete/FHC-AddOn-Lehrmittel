@@ -70,8 +70,8 @@ if(isset($_POST["save"]))
 	{
 		if(!$sw->load($software_id))
 			die('Fehler beim Laden der Software');
-	}		
-	
+	}
+
 	$sw->softwaretyp_kurzbz = $softwaretyp_kurzbz;
 	$sw->content_id = $content_id;
 	$sw->ansprechperson_uid = $ansprechperson_uid;
@@ -90,7 +90,7 @@ if(isset($_POST["save"]))
 	$reloadstr .= "<script type='text/javascript'>\n";
 	$reloadstr .= "	parent.uebersicht_software.location.href='software_uebersicht.php';";
 	$reloadstr .= "</script>\n";
-	
+
 	$software_id = $sw->software_id;
 }
 
@@ -111,7 +111,7 @@ if ($software_id!='')
 	$ablaufdatum = $sw->ablaufdatum;
 	$aktiv = $sw->aktiv;
 	$anmerkung = $sw->anmerkung;
-	
+
 	$neu = 'false';
 }
 
@@ -144,7 +144,7 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 					$sw_ort->aktiv = true;
 					$sw_ort->insertamum = date('Y-m-d H:i:s');;
 					$sw_ort->insertvon = $user;
-	
+
 					if(!$sw_ort->save())
 						$htmlstr.='Fehler beim Speichern '.$sw_ort->errormsg;
 				}
@@ -167,7 +167,7 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 					$sw_ort->aktiv=($_GET['aktiv']=='true'?false:true);
 					$sw_ort->updateamum = date('Y-m-d H:i:s');
 					$sw_ort->updatevon = $user;
-	
+
 					if($sw_ort->save())
 						exit('true');
 					else
@@ -185,29 +185,29 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 
 	$htmlstr.='
 		<script>
-		$(document).ready(function() 
-		{ 
+		$(document).ready(function()
+		{
 			$("#raumtyptable").tablesorter(
 			{
 				sortList: [[1,0]],
 				widgets: ["zebra"]
-			}); 
+			});
 		});
 		function changeboolean(software_ort_id, name)
 		{
 			value=document.getElementById(name+software_ort_id).value;
-		
+
 			var dataObj = {};
 			dataObj["software_ort_id"]=software_ort_id;
 			dataObj[name]=value;
 			dataObj["type"]="software_ort";
 			dataObj["method"]="changeAktiv";
-	
+
 			$.ajax({
 				type:"GET",
-				url:"software_details.php", 
+				url:"software_details.php",
 				data:dataObj,
-				success: function(data) 
+				success: function(data)
 				{
 					if(data=="true")
 					{
@@ -219,7 +219,7 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 						document.getElementById(name+software_ort_id).value=value;
 						document.getElementById(name+"img"+software_ort_id).src="../../../skin/images/"+value+".png";
 					}
-					else 
+					else
 						alert("ERROR:"+data)
 				},
 				error: function() { alert("error"); }
@@ -255,7 +255,7 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 	<form action="software_details.php?type=software_ort&method=add" method="POST">
 	<span style="vertical-align: top">Raum:</span>
 	<SELECT name="ort_kurzbz[]" multiple="multiple" style="height: 200px">';
-	
+
 	$ort = new ort();
 	$ort->getActive(true,true);
 	foreach($ort->result as $row)
@@ -267,14 +267,14 @@ if(isset($_GET['type']) && $_GET['type']=='software_ort')
 	<input type="hidden" name="software_id" value="'.$software_id.'" />
 	<input type="submit" value="Hinzufügen" style="vertical-align: top">
 	</form>';
-	
+
 	$htmlstr.='<br><hr>
 	<a href="software_details.php?type=software_ort&software_id='.$software_id.'&method=deleteAll" onclick="return confirm(\'Wollen Sie alle zugeordneten Räume entfernen?\');">Alle entfernen</a><br>
 	<a href="software_details.php?type=software_ort&software_id='.$software_id.'&method=assignAll">Alle Lehrsäle hinzufügen</a>';
 
 }
 else
-{	
+{
 	if(isset($_GET['method']))
 	{
 		if(!$rechte->isBerechtigt('addon/lehrmittel',null,'suid'))
@@ -293,12 +293,12 @@ else
 				break;
 		}
 	}
-	
+
 	if($software_id != '')
 		$htmlstr .= '<br><div class="kopf">Software <b>'.$software_id.'</b></div>';
 	else
 	{
-		$htmlstr .='<br><div class="kopf">Neue Software</div>'; 
+		$htmlstr .='<br><div class="kopf">Neue Software</div>';
 		$aktiv = true;
 	}
 	$htmlstr .= '
@@ -328,9 +328,9 @@ else
 							{
 								if($row->softwaretyp_kurzbz==$softwaretyp_kurzbz)
 									$selected='selected';
-								else 
+								else
 									$selected='';
-							
+
 								$htmlstr.='<OPTION value="'.$row->softwaretyp_kurzbz.'" '.$selected.'>'.$row->bezeichnung.'</OPTION>';
 							}
 						}
@@ -338,7 +338,7 @@ else
 					<td align="right">Content ID ';
 					if($content_id != '')
 						$htmlstr .= '<a href="'.APP_ROOT.'cms/admin.php?content_id='.$content_id.'&action=content&sprache='.DEFAULT_LANGUAGE.'&filter='.(defined('SOFTWARE_CONTENT_TEMPLATE')?SOFTWARE_CONTENT_TEMPLATE:$content_id).'" target="blank"><img src="../skin/images/pen.png" height="16px"></a>';
-					else 
+					else
 						$htmlstr .= '<a href="#" onclick="addNewContent(\''.$bezeichnung.'\')"><img src="../skin/images/add.png" height="16px"></a>';
 					$htmlstr .= '</td>
 					<td><input type="text" name="content_id" id="content_id" size="10" maxlength="8" value="'.$content_id.'" ></td>
@@ -365,7 +365,7 @@ else
 					<td colspan="6" align="right">
 						<br>
 						<input type="hidden" name="software_id" value="'.$software_id.'" />
-						
+
 						<input type="hidden" name="neu" value="'.$neu.'">
 						<input type="hidden" name="save" value="Save" />
 						<input type="submit" value="Speichern" name="save">
@@ -375,7 +375,7 @@ else
 			<span id="submsg" style="color:red; visibility:hidden;">Datensatz geändert!&nbsp;&nbsp;</span>
 		</form>
 		<div class="inserterror">'.$errorstr.'</div>';
-	
+
 	$htmlstr.='<hr><h3 style="padding-top: 10px;">Neuer Softwaretyp</h3><br>
 		<form action="software_details.php?type=software&software_id='.$software_id.'&method=typ_neu" method="POST">
 			Kurzbz: <input type="text" name="softwaretyp_kurzbz" size="20" maxlength="32">
@@ -394,7 +394,11 @@ else
 	<link rel="stylesheet" href="../../../skin/jquery.css" type="text/css">
 	<link rel="stylesheet" href="../../../skin/tablesort.css" type="text/css"/>
 	<link rel="stylesheet" href="../../../skin/jquery-ui-1.9.2.custom.min.css" type="text/css">
-	<script src="../../../include/js/jquery1.9.min.js" type="text/javascript"></script>	
+	<script type="text/javascript" src="../../../vendor/jquery/jqueryV1/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/christianbach/tablesorter/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/components/jqueryui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../../../include/js/jquery.ui.datepicker.translation.js"></script>
+	<script type="text/javascript" src="../../../vendor/jquery/sizzle/sizzle.js"></script>
 
 <script type="text/javascript">
 function addNewContent(bezeichnung)
@@ -412,7 +416,7 @@ function addNewContent(bezeichnung)
 	data = {
 				NewContent: "NewContent",
 				titel: bez,
-				templateContent: <?php echo (defined('SOFTWARE_CONTENT_TEMPLATE') && SOFTWARE_CONTENT_TEMPLATE != ''?SOFTWARE_CONTENT_TEMPLATE:0); ?>			
+				templateContent: <?php echo (defined('SOFTWARE_CONTENT_TEMPLATE') && SOFTWARE_CONTENT_TEMPLATE != ''?SOFTWARE_CONTENT_TEMPLATE:0); ?>
 			};
 
 	$.ajax({
@@ -420,22 +424,22 @@ function addNewContent(bezeichnung)
 		data: data,
 		type: "POST",
 		dataType: "json",
-		success: function(data) 
+		success: function(data)
 		{
 			$( "#content_id" ).val( data );
 			//document.getElementById("softwareform").submit();
 		},
-		error: function(data) 
+		error: function(data)
 		{
 			alert("ERROR:"+data);
 		}
 	});
 }
-$(document).ready(function() 
-{ 
+$(document).ready(function()
+{
 	$( ".datepicker_datum" ).datepicker({
 		 changeMonth: true,
-		 changeYear: true, 
+		 changeYear: true,
 		 dateFormat: 'yy-mm-dd'
  	});
 
@@ -482,10 +486,10 @@ table.tablesorter2 thead tr .header {
 	background-image: url(../../skin/images/bg_sort.gif);
 	background-repeat: no-repeat;
 	background-position: center left;
-	padding-left: 20px; 
+	padding-left: 20px;
 	cursor: pointer;
 }
-table.tablesorter2 tbody td {	
+table.tablesorter2 tbody td {
 	padding: 1px;
 	background-color: #EEEEEE;
 	vertical-align: center;

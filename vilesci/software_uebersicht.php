@@ -56,10 +56,10 @@ if(isset($_POST['software_id']))
 			$sw_obj->updatevon = $user;
 			if($sw_obj->save())
 				exit('true');
-			else 
+			else
 				exit('Fehler beim Speichern:'.$sw_obj->errormsg);
 		}
-		else 
+		else
 			exit('Fehler beim Speichern der Software:'.$sw_obj->errormsg);
 	}
 }
@@ -70,7 +70,7 @@ if(isset($_GET['delete']) && isset($_GET['software_id']))
 
 	if(!$rechte->isBerechtigt('addon/lehrmittel', null, 'suid'))
 		die($rechte->errormsg);
-	
+
 	$sw_obj = new software();
 	if(!$sw_obj->delete($_GET['software_id']))
 		$sw_obj->errormsg;
@@ -120,14 +120,14 @@ foreach ($sw->result as $software)
 	$htmlstr .= "		<td>".$software->anzahl_lizenzen."</td>\n";
 	$htmlstr .= "		<td>€ ".number_format($software->lizenzkosten,2,',','.')."</td>\n";
 	$htmlstr .= "		<td>".$software->ablaufdatum."</td>\n";
-	
+
 	// Aktiv boolean setzen
-	
+
 	$htmlstr .= "		<td align='center'><a href='#Aktiv' onclick='changeboolean(\"".$software->software_id."\",\"aktiv\"); return false'>";
 	$htmlstr .= "		<input type='hidden' id='aktiv".$software->software_id."' value='".($software->aktiv==true?"true":"false")."'>";
 	$htmlstr .= "		<img id='aktivimg".$software->software_id."' alt='Aktiv' title='Aktiv' src='../skin/images/".($software->aktiv==true?"true.png":"false.png")."' style='margin:0;' height='20'>";
 	$htmlstr .= "		</a></td>";
-	
+
 	$htmlstr .= "		<td>".$software->anmerkung."</td>\n";
 	$htmlstr .= '		<td><a href="software_details.php?type=software&software_id='.$software->software_id.'" target="detail_software" title="Bearbeiten" ><img src="../skin/images/pen.png" height="22px"/></a></td>';
 	$htmlstr .= '		<td><a href="software_details.php?type=software_ort&software_id='.$software->software_id.'" target="detail_software" title="Raum zuteilen" ><img src="../skin/images/computer.png" height="22px"/></a></td>';
@@ -144,7 +144,13 @@ $htmlstr .= "</tbody></table>\n";
 	<title>R&auml;ume &Uuml;bersicht</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="../../../skin/vilesci.css" type="text/css">
-	<script type="text/javascript" src="../../../include/js/jquery.js"></script>
+
+	<script type="text/javascript" src="../../../vendor/jquery/jqueryV1/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/christianbach/tablesorter/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" src="../../../vendor/components/jqueryui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../../../include/js/jquery.ui.datepicker.translation.js"></script>
+	<script type="text/javascript" src="../../../vendor/jquery/sizzle/sizzle.js"></script>
+
 	<link rel="stylesheet" href="../../../skin/tablesort.css" type="text/css"/>
 	<style>
 	table.tablesorter tbody td
@@ -155,29 +161,29 @@ $htmlstr .= "</tbody></table>\n";
 	}
 	</style>
 	<script type="text/javascript">
-	$(document).ready(function() 
-	{ 
+	$(document).ready(function()
+	{
 		$("#t1").tablesorter(
 		{
 			sortList: [[1,0]],
 			widgets: ["zebra"],
 			headers: {11: {sorter: false}, 12: {sorter: false}, 13: {sorter: false}}
-		}); 
+		});
 	});
-		
+
 	function changeboolean(software_id, name)
 	{
 		value=document.getElementById(name+software_id).value;
-	
+
 		var dataObj = {};
 		dataObj["software_id"]=software_id;
 		dataObj[name]=value;
 
 		$.ajax({
 			type:"POST",
-			url:"software_uebersicht.php", 
+			url:"software_uebersicht.php",
 			data:dataObj,
-			success: function(data) 
+			success: function(data)
 			{
 				if(data=="true")
 				{
@@ -189,7 +195,7 @@ $htmlstr .= "</tbody></table>\n";
 					document.getElementById(name+software_id).value=value;
 					document.getElementById(name+"img"+software_id).src="../skin/images/"+value+".png";
 				}
-				else 
+				else
 					alert("ERROR:"+data)
 			},
 			error: function() { alert("error"); }
@@ -203,7 +209,7 @@ $htmlstr .= "</tbody></table>\n";
 <a href="csvimport_software.php" target="_blank">Software CSV-Import</a><br>
 <a href="software_details.php" target="detail_software">Neue Software</a>
 
-<?php 
+<?php
 	echo $htmlstr;
 ?>
 
