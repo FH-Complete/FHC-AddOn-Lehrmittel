@@ -161,7 +161,7 @@ echo '	<table class="tablesorter" id="t1">
 				<th>'.$p->t("software/lizenzkosten").'</th>
 				<th>'.$p->t("software/ablaufdatum").'</th>-->
 				<th>'.$p->t("software/zugeordneteRaeume").'</th>
-				<th>'.$p->t("software/details").'</th>
+				<!--<th>'.$p->t("software/details").'</th>-->
 			</tr>
 		</thead>
 		<tbody>';
@@ -176,14 +176,14 @@ foreach($software->result as $row)
 	echo '	<tr>';
 	echo '		<td>'.$row->bezeichnung.'</td>';
 	echo '		<td>'.$row->version.'</td>';
-	echo '		<td>'.$softwaretypes_arr[$row->softwaretyp_kurzbz].'</td>';
+	echo '		<td>'.(isset($softwaretypes_arr[$row->softwaretyp_kurzbz])?$softwaretypes_arr[$row->softwaretyp_kurzbz]:'').'</td>';
 	//echo '		<td>'.$row->ansprechperson_uid.'</td>';
 	//echo '		<td>'.$row->anzahl_lizenzen.'</td>';
 	//echo '		<td>€ '.number_format($row->lizenzkosten,2,",",".").'</td>';
 	//echo '		<td>'.$row->ablaufdatum.'</td>';
 	echo '		<td><a class="roomsToggle" href="#" onclick="return loadOrt(\''.$row->software_id.'\')"><img src="'.APP_ROOT.'skin/images/down_lvplan.png" title="anzeigen" alt="anzeigen" height="9px" border="0"> '.$p->t("software/zugeordneteRaeume").'</a>';
 	echo '		<div class="rooms" id="rooms'.$row->software_id.'"></div></td>';
-	echo '		<td><a href="'.APP_ROOT.'cms/content.php?content_id='.$row->content_id.'" target="blank">'.$p->t("software/details").'</a></td>';
+// 	echo '		<td><a href="'.APP_ROOT.'cms/content.php?content_id='.$row->content_id.'" target="blank">'.$p->t("software/details").'</a></td>';
 	echo '	</tr>';
 }
 echo $rowcount.' '.$p->t("software/ergebnisse");

@@ -184,7 +184,7 @@ foreach($softwareOrt->result as $swOrt)
 echo $rowcount.' '.$p->t("software/ergebnisse");
 if ($rowcount==0)
 {
-	echo '<tr><td colspan="5">'.$p->t("software/keineSoftwareVomTypVorhanden", $softwaretypes_arr[$typ]).'</td></tr>';
+	echo '<tr><td colspan="5">'.$p->t("software/keineSoftwareVomTypVorhanden", array((isset($softwaretypes_arr[$typ])?$softwaretypes_arr[$typ]:'Unbekannt'))).'</td></tr>';
 }
 echo '</tbody>
 </table>
