@@ -22,7 +22,6 @@ require_once('../../../include/functions.inc.php');
 require_once('../../../include/benutzerberechtigung.class.php');
 require_once('../include/software.class.php');
 require_once('../include/software_typ.class.php');
-require_once('../config.inc.php');
 
 //require_once('../../../include/ort.class.php');
 
@@ -114,7 +113,7 @@ foreach ($sw->result as $software)
 	$htmlstr .= "		<td>".$software->software_id."</td>\n";
 	$htmlstr .= "		<td><a href='software_details.php?type=software&software_id=".$software->software_id."' target='detail_software'>".$software->bezeichnung."</a></td>\n";
 	$htmlstr .= "		<td>".$software->version."</td>\n";
-	$htmlstr .= "		<td>".$softwaretypes_arr[$software->softwaretyp_kurzbz]."</td>\n";
+	$htmlstr .= "		<td>" . (isset($softwaretypes_arr[$software->softwaretyp_kurzbz]) ? $softwaretypes_arr[$software->softwaretyp_kurzbz] : '') . "</td>\n";
 	$htmlstr .= "		<td><a href='".APP_ROOT."cms/admin.php?content_id=".$software->content_id."&action=content&sprache=".DEFAULT_LANGUAGE."&filter=".(defined('SOFTWARE_CONTENT_TEMPLATE')?SOFTWARE_CONTENT_TEMPLATE:$software->content_id)."' target='blank'>".$software->content_id."</a></td>\n";
 	$htmlstr .= "		<td>".$software->ansprechperson_uid."</td>\n";
 	$htmlstr .= "		<td>".$software->anzahl_lizenzen."</td>\n";

@@ -23,7 +23,6 @@ require_once('../../../include/phrasen.class.php');
 require_once('../include/software.class.php');
 require_once('../include/software_typ.class.php');
 require_once('../include/software_ort.class.php');
-require_once('../config.inc.php');
 
 $user = get_uid();
 $sprache = getSprache();
