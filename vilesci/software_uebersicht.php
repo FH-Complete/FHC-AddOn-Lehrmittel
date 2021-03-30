@@ -22,6 +22,7 @@ require_once('../../../include/functions.inc.php');
 require_once('../../../include/benutzerberechtigung.class.php');
 require_once('../include/software.class.php');
 require_once('../include/software_typ.class.php');
+require_once('../config.inc.php');
 
 //require_once('../../../include/ort.class.php');
 

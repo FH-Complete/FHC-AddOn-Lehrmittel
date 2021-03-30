@@ -25,6 +25,7 @@ require_once('../../../include/benutzerberechtigung.class.php');
 require_once('../include/software.class.php');
 require_once('../include/software_typ.class.php');
 require_once('../include/software_ort.class.php');
+require_once('../config.inc.php');
 
 if (!$db = new basis_db())
 	die('Es konnte keine Verbindung zum Server aufgebaut werden.');
