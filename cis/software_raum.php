@@ -174,7 +174,7 @@ foreach($softwareOrt->result as $swOrt)
 		echo '	<tr>';
 		echo '		<td>'.$software->bezeichnung.'</td>';
 		echo '		<td>'.$software->version.'</td>';
-		echo '		<td>'.$softwaretypes_arr[$software->softwaretyp_kurzbz].'</td>';
+		echo '		<td>' . (isset($softwaretypes_arr[$software->softwaretyp_kurzbz]) ? $softwaretypes_arr[$software->softwaretyp_kurzbz] : '') . '</td>';
 		echo '		<td><a class="roomsToggle" href="#" onclick="return loadOrt(\''.$software->software_id.'\')"><img src="'.APP_ROOT.'skin/images/down_lvplan.png" title="anzeigen" alt="anzeigen" height="9px" border="0"> '.$p->t("software/zugeordneteRaeume").'</a>';
 		echo '		<div class="rooms" id="rooms'.$software->software_id.'"></div></td>';
 		echo '		<td>'.($software->content_id!=''?'<a href="'.APP_ROOT.'cms/content.php?content_id='.$software->content_id.'" target="blank">'.$p->t("software/details").'</a>':$p->t("software/details")).'</td>';
