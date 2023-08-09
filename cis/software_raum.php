@@ -40,7 +40,7 @@ if(isset($_POST['countSoftware']))
 	$sw_ort = new software_ort();
 	$sw_ort->getSoftwareZugeordnet($_POST['ort_kurzbz'], true);
 
-	if(count($sw_ort->result)>0)
+	if(numberOfElements($sw_ort->result)>0)
 	{
 		exit('true');
 	}

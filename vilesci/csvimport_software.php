@@ -50,7 +50,7 @@ if(php_sapi_name() != 'cli')
 }
 $db = new basis_db();
 
-//if (count(get_included_files()) == 1)
+//if (numberOfElements(get_included_files()) == 1)
 //	die('Diese Datei sollte nicht direkt aufgerufen werden!');
 
 //Wenn das File direkt aufgerufen wird @todo: noch nicht fertig an den automatischen import angepasst.
@@ -124,7 +124,7 @@ if(isset($user))
 				//Suche, ob es schon einen Softwareeintrag mit dieser Version und Bezeichnung gibt
 				$software = new software();
 				$software->search($bezeichnung, $version, true);
-				if(count($software->result) == 0)
+				if(numberOfElements($software->result) == 0)
 				{
 					$log.= "<br>Importiere $bezeichnung Version $version";
 					
@@ -270,7 +270,7 @@ else
 		
 		$ort_kurzbz_obj = new ort();
 		$ort_kurzbz_obj->getOrtByPlanbezeichnung($planbezeichnung);
-		if(count($ort_kurzbz_obj->result)>0)
+		if(numberOfElements($ort_kurzbz_obj->result)>0)
 			$ort_kurzbz = $ort_kurzbz_obj->result[0]->ort_kurzbz;
 		else 
 		{
@@ -309,7 +309,7 @@ else
 			//Suche, ob es schon einen Softwareeintrag mit dieser Version und Bezeichnung gibt
 			$software = new software();
 			$software->search($bezeichnung, $version, true);
-			if(count($software->result) == 0)
+			if(numberOfElements($software->result) == 0)
 			{
 				$software->softwaretyp_kurzbz = 'lokal';
 				$software->content_id = null;
